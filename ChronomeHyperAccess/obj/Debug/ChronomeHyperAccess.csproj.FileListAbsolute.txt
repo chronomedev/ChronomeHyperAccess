@@ -1,0 +1,10 @@
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\bin\Debug\ChronomeHyperAccess.exe.config
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\bin\Debug\ChronomeHyperAccess.exe
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\bin\Debug\ChronomeHyperAccess.pdb
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.csprojAssemblyReference.cache
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.about.resources
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.Form1.resources
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.Properties.Resources.resources
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.csproj.GenerateResource.cache
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.exe
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.pdb
