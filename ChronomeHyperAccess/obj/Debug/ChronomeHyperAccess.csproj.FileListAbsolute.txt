@@ -8,3 +8,5 @@ C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debu
 C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.csproj.GenerateResource.cache
 C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.exe
 C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.pdb
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.UserControl1.resources
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Debug\ChronomeHyperAccess.loadingDialog.resources

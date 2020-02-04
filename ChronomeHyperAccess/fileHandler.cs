@@ -23,12 +23,23 @@ namespace ChronomeHyperAccess
             return list;
         }
 
+        public static string[] slice(string[] list_path)
+        {
+            for (int x = 0; x < list_path.Length; x++)
+            {
+                
+            }
+            return null;
+        }
+
         //Change path array dynamically to optimize memory
         public static string[] getAllDirectory(String path_cari)
         {
             string[] list = Directory.GetDirectories(@path_cari, "*", SearchOption.TopDirectoryOnly);
             return list;
         }
+
+
     
     }
 
