@@ -31,4 +31,25 @@ namespace ChronomeHyperAccess
         }
     
     }
+
+    //htaccess write ops class
+    static class htaccess
+    {
+        public static string direktori_file;
+
+        public static void setDirectory(string direktori)
+        {
+            direktori_file = direktori;
+        }
+
+        public static void createHTA()
+        {
+            
+        }
+
+        public static Boolean checkExsist()
+        {
+            return true;
+        }
+    }
 }
