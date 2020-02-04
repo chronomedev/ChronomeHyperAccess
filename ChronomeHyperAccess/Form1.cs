@@ -7,20 +7,27 @@ using System.Windows.Forms;
 // ChronomeDev 2020
 
 namespace ChronomeHyperAccess {
-    public partial class Form1 : Form {
+    public partial class Form1 : Form
+    {
 
         // Public varibles used by worker threads and main thread
         public int progressBarProcess = 0;
+        public int selectedIndexPath;
         public static Boolean t1Finished = false;
         public Boolean isOpenDialog = false;
+
+
         public string direktori_pilihan;
         public string[] list_direktori;
         public string[] list_file;
+        //public string[] list_direktori
+
         Thread t1;
         Thread t2;
-        public Form1 () {
-            InitializeComponent ();
-            initializeThread ();
+        public Form1()
+        {
+            InitializeComponent();
+            initializeThread();
             //string[] namafile = Directory.GetFiles(@"c:\xampp\", "*",  SearchOption.TopDirectoryOnly);
             //debug.printarr(Konten.getAllDirectory(@"c:\xampp"));
             //debug.printarr(Konten.getAllFile(@"c:\xampp"));
@@ -28,52 +35,103 @@ namespace ChronomeHyperAccess {
         }
 
         //Thread Configuration Functions////////////////////////////////////////////////////////
-        public void initializeThread () {
-            t1 = new Thread (new ThreadStart (T_threadDirectorySearch));
-            t2 = new Thread (new ThreadStart (T_ThreadProgressBarUpdate));
+        public void initializeThread()
+        {
+            t1 = new Thread(new ThreadStart(T_threadPathSearch));
+            t2 = new Thread(new ThreadStart(T_ThreadProgressBarUpdate));
         }
-        private void T_threadDirectorySearch () {
-            //progressBarProcess = 0;
-            list_direktori = Konten.getAllDirectory (direktori_pilihan);
+        private void T_threadPathSearch()
+        {
+            list_direktori = Konten.getAllDirectory(direktori_pilihan);
             progressBarProcess = 30;
-            list_file = Konten.getAllFile (direktori_pilihan);
+            list_file = Konten.getAllFile(direktori_pilihan);
             progressBarProcess = 60;
-            debug.printarr (list_file);
+
+            // swap variables with slice one
+            // first row is store is routed, second is_parameterized
+            //string [,,] dirTemp = new string[]
+            list_direktori = Konten.slice(list_direktori);
+            list_file = Konten.slice(list_file);
+            debug.printarr(list_file);
             progressBarProcess = 100;
             t1Finished = true;
         }
 
         //Progressbar Control Thread
-        private void T_ThreadProgressBarUpdate () {
+        private void T_ThreadProgressBarUpdate()
+        {
 
             while (!t1Finished)
             {
-                progressBar1.Invoke((Action)delegate {
+                progressBar1.Invoke((Action)delegate
+                {
                     progressBar1.Value = progressBarProcess;
                 });
             }
 
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        private void exitToolStripMenuItem_Click (object sender, EventArgs e) {
-            Application.Exit ();
+
+        public void updatePathDirectoryBox()
+        {
+
+            listBox1.Items.Clear();
+            if (list_direktori.Length == 0)
+            {
+                listBox1.Items.Add("EMPTY");
+            }
+            else
+            {
+                for (int z = 0; z < list_direktori.Length; z++)
+                {
+                    listBox1.Items.Add(list_direktori[z]);
+                }
+            }
+
+
         }
 
-        private void aboutToolStripMenuItem_Click (object sender, EventArgs e) {
+        public void updatePathFileBox()
+        {
+            listBox2.Items.Clear();
+            if (list_file.Length == 0)
+            {
+                listBox2.Items.Add("EMPTY");
+            }
+            else
+            {
+
+                for (int x = 0; x < list_file.Length; x++)
+                {
+                    listBox2.Items.Add(list_file[x]);
+                }
+            }
+
+        }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
 
-        private void newInstanceToolStripMenuItem_Click (object sender, EventArgs e) {
-            Form1 formduplikat = new Form1 ();
-            formduplikat.Show ();
+        private void newInstanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1 formduplikat = new Form1();
+            formduplikat.Show();
         }
 
-        private void aboutToolStripMenuItem1_Click (object sender, EventArgs e) {
-            about tentang = new about ();
-            tentang.ShowDialog ();
+        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            about tentang = new about();
+            tentang.ShowDialog();
         }
 
-        private void button1_Click (object sender, EventArgs e) {
+        private void button1_Click(object sender, EventArgs e)
+        {
             //if(textBox1.Text == null || textBox1.Text == "")
             //{
             //    MessageBox.Show("Fill the directory Field!");
@@ -83,18 +141,21 @@ namespace ChronomeHyperAccess {
             //{
             t1Finished = false;
             progressBar1.Value = 0;
-            FolderBrowserDialog dialokDirektori = new FolderBrowserDialog ();
+            FolderBrowserDialog dialokDirektori = new FolderBrowserDialog();
             //OpenFileDialog dialokDirektori = new OpenFileDialog();
-            if (dialokDirektori.ShowDialog () == DialogResult.OK) {
+            if (dialokDirektori.ShowDialog() == DialogResult.OK)
+            {
                 textBox1.Text = dialokDirektori.SelectedPath;
                 direktori_pilihan = textBox1.Text;
                 initializeThread();
-                t1.Start ();
-                t2.Start ();
+                t1.Start();
+                t2.Start();
                 loadingDialog loading1 = new loadingDialog();
-                while (t1.IsAlive) {
+                while (t1.IsAlive)
+                {
 
-                    if (isOpenDialog == false) {
+                    if (isOpenDialog == false)
+                    {
 
                         loading1.ShowDialog();
                         isOpenDialog = true;
@@ -103,7 +164,9 @@ namespace ChronomeHyperAccess {
                 }
                 //progressBarProcess = 0;
                 debug.print("okeeee");
-                
+                updatePathDirectoryBox();
+                updatePathFileBox();
+
             }
 
             //} catch(Exception kacau)
@@ -116,7 +179,30 @@ namespace ChronomeHyperAccess {
             //}
         }
 
-        private void label4_Click (object sender, EventArgs e) {
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedIndexPath = Konten.searchIndex(listBox1.SelectedItem.ToString(), list_direktori);
+            debug.print(selectedIndexPath);
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedIndexPath = Konten.searchIndex(listBox2.SelectedItem.ToString(), list_file);
+            debug.print(selectedIndexPath);
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
 
         }
     }

@@ -16,20 +16,23 @@ namespace ChronomeHyperAccess
     static class Konten
     {
 
-        private const int _FILE_PROPERTY = 2;
         public static string[] getAllFile(String path_cari)
         {
             string[] list = Directory.GetFiles(path_cari, "*", SearchOption.TopDirectoryOnly);
             return list;
         }
 
+        // Get latest path name
+        //ambil nama belakang path
         public static string[] slice(string[] list_path)
         {
+            string[] potong = new string[list_path.Length];
             for (int x = 0; x < list_path.Length; x++)
             {
-                
+                string[] pecah = list_path[x].Split('\\');
+                potong[x] = pecah[pecah.Length-1]; 
             }
-            return null;
+            return potong;
         }
 
         //Change path array dynamically to optimize memory
@@ -39,6 +42,20 @@ namespace ChronomeHyperAccess
             return list;
         }
 
+        public static int searchIndex(string path_cari, string[] list_path)
+        {
+            int index = 0;
+            for(int z = 0; z < list_path.Length; z++)
+            {
+                if(list_path[z] == path_cari)
+                {
+                    index = z;
+                    break;
+                }
+            }
+            return index;
+        }
+
 
     
     }
@@ -46,11 +63,11 @@ namespace ChronomeHyperAccess
     //htaccess write ops class
     static class htaccess
     {
-        public static string direktori_file;
+        public static string direktori_hta;
 
         public static void setDirectory(string direktori)
         {
-            direktori_file = direktori;
+            direktori_hta = direktori;
         }
 
         public static void createHTA()
