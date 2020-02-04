@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.IO;
 
 
 
@@ -14,6 +15,10 @@ namespace ChronomeHyperAccess
         public Form1()
         {
             InitializeComponent();
+            //string[] namafile = Directory.GetFiles(@"c:\xampp\", "*",  SearchOption.TopDirectoryOnly);
+            debug.printz(Konten.getAllDirectory(@"c:\xampp"));
+            debug.printz(Konten.getAllFile(@"c:\xampp"));
+
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
