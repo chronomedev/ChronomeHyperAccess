@@ -11,7 +11,7 @@ namespace ChronomeHyperAccess {
 
         // Public varibles used by worker threads and main thread
         public int progressBarProcess = 0;
-        public Boolean t1Finished = false;
+        public static Boolean t1Finished = false;
         public Boolean isOpenDialog = false;
         public string direktori_pilihan;
         public string[] list_direktori;
@@ -33,7 +33,7 @@ namespace ChronomeHyperAccess {
             t2 = new Thread (new ThreadStart (T_ThreadProgressBarUpdate));
         }
         private void T_threadDirectorySearch () {
-            progressBarProcess = 0;
+            //progressBarProcess = 0;
             list_direktori = Konten.getAllDirectory (direktori_pilihan);
             progressBarProcess = 30;
             list_file = Konten.getAllFile (direktori_pilihan);
@@ -45,9 +45,14 @@ namespace ChronomeHyperAccess {
 
         //Progressbar Control Thread
         private void T_ThreadProgressBarUpdate () {
-            progressBar1.Invoke ((Action) delegate {
-                progressBar1.Value = progressBarProcess;
-            });
+
+            while (!t1Finished)
+            {
+                progressBar1.Invoke((Action)delegate {
+                    progressBar1.Value = progressBarProcess;
+                });
+            }
+
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////
         private void exitToolStripMenuItem_Click (object sender, EventArgs e) {
@@ -77,6 +82,7 @@ namespace ChronomeHyperAccess {
             //try
             //{
             t1Finished = false;
+            progressBar1.Value = 0;
             FolderBrowserDialog dialokDirektori = new FolderBrowserDialog ();
             //OpenFileDialog dialokDirektori = new OpenFileDialog();
             if (dialokDirektori.ShowDialog () == DialogResult.OK) {
@@ -85,17 +91,19 @@ namespace ChronomeHyperAccess {
                 initializeThread();
                 t1.Start ();
                 t2.Start ();
+                loadingDialog loading1 = new loadingDialog();
                 while (t1.IsAlive) {
 
-                    if (t1Finished) {
+                    if (isOpenDialog == false) {
 
-                        break;
-                    } else if (isOpenDialog) {
+                        loading1.ShowDialog();
+                        isOpenDialog = true;
 
                     }
                 }
                 //progressBarProcess = 0;
                 debug.print("okeeee");
+                
             }
 
             //} catch(Exception kacau)

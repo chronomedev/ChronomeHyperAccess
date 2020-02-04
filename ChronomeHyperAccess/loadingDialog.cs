@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
+
+// Loading dialog UI class
+// Depends first directory and file searcher thread
+// ChronomeDev 2020
 
 namespace ChronomeHyperAccess
 {
@@ -15,18 +13,19 @@ namespace ChronomeHyperAccess
         public loadingDialog()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void loadingDialog_Load(object sender, EventArgs e)
         {
-            //while (Form1.t1Finished)
-            //{
-            //    if (Form1.t1Finished)
-            //    {
-            //        this.Close();
-            //        break;
-            //    }
-            //}
+            while (Form1.t1Finished)
+            {
+                if (Form1.t1Finished)
+                {
+                    this.Close();
+                    break;
+                }
+            }
         }
     }
 }
