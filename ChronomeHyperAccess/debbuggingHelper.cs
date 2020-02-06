@@ -18,6 +18,20 @@ namespace ChronomeHyperAccess
             {
                 Console.WriteLine("DEBUG---------");
                 Console.WriteLine(strarr[z]);
+                
+            }
+        }
+
+        public static void print2d(string[,] strarr)
+        {
+            Console.WriteLine("panjang baris" + strarr.GetLength(0));
+            for(int z = 0; z < strarr.GetLength(0); z++)
+            {
+                for(int x =0; x < strarr.GetLength(1); x++)
+                {
+                    Console.Write(strarr[z, x] + " - ");
+                }
+                Console.WriteLine();
             }
         }
 

@@ -14,12 +14,13 @@ namespace ChronomeHyperAccess {
         public int progressBarProcess = 0;
         public int selectedIndexPath;
         public static Boolean t1Finished = false;
+        public static string selectedConfig;
         public Boolean isOpenDialog = false;
 
-
         public string direktori_pilihan;
-        public string[] list_direktori;
-        public string[] list_file;
+        public string[,] list_direktori;
+        public string[,] list_file;
+
         //public string[] list_direktori
 
         Thread t1;
@@ -28,10 +29,7 @@ namespace ChronomeHyperAccess {
         {
             InitializeComponent();
             initializeThread();
-            //string[] namafile = Directory.GetFiles(@"c:\xampp\", "*",  SearchOption.TopDirectoryOnly);
-            //debug.printarr(Konten.getAllDirectory(@"c:\xampp"));
-            //debug.printarr(Konten.getAllFile(@"c:\xampp"));
-
+            showParamUI(false);
         }
 
         //Thread Configuration Functions////////////////////////////////////////////////////////
@@ -48,11 +46,13 @@ namespace ChronomeHyperAccess {
             progressBarProcess = 60;
 
             // swap variables with slice one
-            // first row is store is routed, second is_parameterized
-            //string [,,] dirTemp = new string[]
+            // 1 is store is routed, 2 is parameter content
+            //string[,] dirTemp = new string[list_direktori.Length, 3];
             list_direktori = Konten.slice(list_direktori);
             list_file = Konten.slice(list_file);
-            debug.printarr(list_file);
+            //list_direktori = null;
+            debug.print2d(list_file);
+            //debug.printarr(list_file);
             progressBarProcess = 100;
             t1Finished = true;
         }
@@ -76,38 +76,88 @@ namespace ChronomeHyperAccess {
         {
 
             listBox1.Items.Clear();
-            if (list_direktori.Length == 0)
+            if (list_direktori.GetLength(0) == 0)
             {
                 listBox1.Items.Add("EMPTY");
             }
             else
             {
-                for (int z = 0; z < list_direktori.Length; z++)
+                for (int z = 0; z < list_direktori.GetLength(0); z++)
                 {
-                    listBox1.Items.Add(list_direktori[z]);
+                    listBox1.Items.Add(list_direktori[z,0]);
                 }
             }
 
 
         }
 
+
+        public void showParamUI(Boolean show)
+        {
+            textBox3.Visible = show;
+            label7.Visible = show;
+        }
+
         public void updatePathFileBox()
         {
             listBox2.Items.Clear();
-            if (list_file.Length == 0)
+            if (list_file.GetLength(0) == 0)
             {
                 listBox2.Items.Add("EMPTY");
             }
             else
             {
 
-                for (int x = 0; x < list_file.Length; x++)
+                for (int x = 0; x < list_file.GetLength(0); x++)
                 {
-                    listBox2.Items.Add(list_file[x]);
+                    listBox2.Items.Add(list_file[x,0]);
                 }
             }
 
         }
+
+        //turn the checkbox htaccess configuration on or off
+        public void checkStatus(string tipe)
+        {
+            if(tipe == "dir")
+            {
+                if(list_direktori[selectedIndexPath, 1] == "1")
+                {
+                    checkBox1.Checked = true;
+                } else
+                {
+                    checkBox1.Checked = false;
+                }
+
+                if(list_direktori[selectedIndexPath, 2] == null || list_direktori[selectedIndexPath, 2] == "")
+                {
+                    checkBox2.Checked = false;
+                } else
+                {
+                    checkBox2.Checked = true;
+                }
+            } else
+            {
+                if (list_file[selectedIndexPath, 1] == "1")
+                {
+                    checkBox1.Checked = true;
+                }
+                else
+                {
+                    checkBox1.Checked = false;
+                }
+
+                if (list_file[selectedIndexPath, 2] == null || list_file[selectedIndexPath, 2] == "")
+                {
+                    checkBox2.Checked = false;
+                }
+                else
+                {
+                    checkBox2.Checked = true;
+                }
+            }
+        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -193,17 +243,50 @@ namespace ChronomeHyperAccess {
         {
             selectedIndexPath = Konten.searchIndex(listBox1.SelectedItem.ToString(), list_direktori);
             debug.print(selectedIndexPath);
+            checkStatus("dir");
+            selectedConfig = "dir";
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             selectedIndexPath = Konten.searchIndex(listBox2.SelectedItem.ToString(), list_file);
             debug.print(selectedIndexPath);
+            checkStatus("f");
+            selectedConfig = "f";
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                showParamUI(true);
+            } else
+            {
+                showParamUI(false);
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(selectedConfig == "dir")
+            {
+                list_direktori = htaccess.setRoute(list_direktori, selectedIndexPath);
+                debug.print2d(list_direktori);
+            } else
+            {
+                list_file = htaccess.setRoute(list_file, selectedIndexPath);
+                debug.print2d(list_file);
+            }
         }
     }
 }
