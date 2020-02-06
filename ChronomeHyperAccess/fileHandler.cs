@@ -11,6 +11,8 @@ namespace ChronomeHyperAccess
     /// <summary>
     /// File Handler Class
     /// Utilizing all IO system library
+    /// Script Contain 2 Class: Konten (retreive from disk)
+    /// htaccess -> static class that write .htaccess to disk
     /// ChronomeDev 2020
     /// </summary>
     static class Konten
@@ -91,7 +93,7 @@ namespace ChronomeHyperAccess
             direktori_hta = direktori;
         }
 
-        public static void createHTA()
+        public static void createHTA() // Write to disk operation
         {
 
         }
@@ -101,6 +103,8 @@ namespace ChronomeHyperAccess
             string[] pecah = parameter_masuk.Split('&');
             return pecah;
         }
+
+        //HTA Code generation
         public static string generateScript(string[,] list_direktori, string[,] list_file)
         {
             string script_generated = "";
