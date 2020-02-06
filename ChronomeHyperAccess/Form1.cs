@@ -30,6 +30,7 @@ namespace ChronomeHyperAccess {
             InitializeComponent();
             initializeThread();
             showParamUI(false);
+            groupBox2.Visible = false;
         }
 
         //Thread Configuration Functions////////////////////////////////////////////////////////
@@ -86,6 +87,7 @@ namespace ChronomeHyperAccess {
                 {
                     listBox1.Items.Add(list_direktori[z,0]);
                 }
+                listBox1.SelectedIndex = 0;
             }
 
 
@@ -112,8 +114,14 @@ namespace ChronomeHyperAccess {
                 {
                     listBox2.Items.Add(list_file[x,0]);
                 }
+                listBox1.SelectedIndex = 0;
             }
 
+        }
+
+        public void hidePanelConfig()
+        {
+            
         }
 
         //turn the checkbox htaccess configuration on or off UI
@@ -122,12 +130,17 @@ namespace ChronomeHyperAccess {
             if(tipe == "dir")
             {
                 /////////For Directory/////////////////
-                if(list_direktori[selectedIndexPath, 1] == "1")
+                if(list_direktori[selectedIndexPath, 1] != null && list_direktori[selectedIndexPath, 1] != "")
                 {
                     checkBox1.Checked = true;
+                    textBox2.Text = list_direktori[selectedIndexPath, 1];
+
+
                 } else
                 {
                     checkBox1.Checked = false;
+                    textBox2.Text = null;
+
                 }
 
                 if(list_direktori[selectedIndexPath, 2] == null || list_direktori[selectedIndexPath, 2] == "")
@@ -144,13 +157,15 @@ namespace ChronomeHyperAccess {
             } else
             {
                 //For Files///////////
-                if (list_file[selectedIndexPath, 1] == "1")
+                if (list_file[selectedIndexPath, 1] != null && list_file[selectedIndexPath, 1] != "")
                 {
                     checkBox1.Checked = true;
+                    textBox2.Text = list_direktori[selectedIndexPath, 1];
                 }
                 else
                 {
                     checkBox1.Checked = false;
+                    textBox2.Text = null;
                 }
 
                 if (list_file[selectedIndexPath, 2] == null || list_file[selectedIndexPath, 2] == "")
@@ -224,6 +239,7 @@ namespace ChronomeHyperAccess {
                 debug.print("okeeee");
                 updatePathDirectoryBox();
                 updatePathFileBox();
+                groupBox2.Visible = true;
 
             }
 
@@ -296,15 +312,34 @@ namespace ChronomeHyperAccess {
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if(selectedConfig == "dir")
+            if (!checkBox1.Checked)
             {
-                list_direktori = htaccess.setRoute(list_direktori, selectedIndexPath);
-                debug.print2d(list_direktori);
-            } else
-            {
-                list_file = htaccess.setRoute(list_file, selectedIndexPath);
-                debug.print2d(list_file);
+                if (selectedConfig == "dir")
+                {
+                    list_direktori = htaccess.clearRoute(list_direktori, selectedIndexPath);
+                    list_direktori = htaccess.clearParam(list_direktori, selectedIndexPath);
+                    debug.print2d(list_direktori);
+                }
+                else
+                {
+                    list_file = htaccess.clearRoute(list_file, selectedIndexPath);
+                    list_file = htaccess.clearParam(list_file, selectedIndexPath);
+                    debug.print2d(list_file);
+                }
+
+                textBox2.Text = null;
+                label6.Visible = false;
+                textBox2.Visible = false;
+                checkBox2.Checked = false;
+                checkBox2.Visible = false;
             }
+            else
+            {
+                label6.Visible = true;
+                textBox2.Visible = true;
+                checkBox2.Visible = true;
+            }
+
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -317,6 +352,20 @@ namespace ChronomeHyperAccess {
             else
             {
                 list_file = htaccess.setParam(list_file, selectedIndexPath, textBox3.Text);
+                debug.print2d(list_file);
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (selectedConfig == "dir")
+            {
+                list_direktori = htaccess.setRoute(list_direktori, selectedIndexPath, textBox2.Text);
+                debug.print2d(list_direktori);
+            }
+            else
+            {
+                list_file = htaccess.setRoute(list_file, selectedIndexPath, textBox2.Text);
                 debug.print2d(list_file);
             }
         }

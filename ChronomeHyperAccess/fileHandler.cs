@@ -24,7 +24,7 @@ namespace ChronomeHyperAccess
             for (int z = 0; z < list.Length; z++)
             {
                 listTemp[z, 0] = list[z];
-                listTemp[z, 1] = "0";
+                listTemp[z, 1] = null;
                 listTemp[z, 2] = null;
             }
             return listTemp;
@@ -38,7 +38,7 @@ namespace ChronomeHyperAccess
             for (int z = 0; z < list.Length; z++)
             {
                 listTemp[z, 0] = list[z];
-                listTemp[z, 1] = "0";
+                listTemp[z, 1] = null;
                 listTemp[z, 2] = null;
             }
             return listTemp;
@@ -94,14 +94,15 @@ namespace ChronomeHyperAccess
             
         }
 
-        public static string[,] setRoute(string[,] arr, int index)
+        public static string[,] setRoute(string[,] arr, int index, string param_masuk)
         {
-            arr[index, 1] = "1";
+            arr[index, 1] = param_masuk;
             return arr;
         }
 
         public static string[,] clearRoute(string[,] arr, int index)
         {
+            arr[index, 1] = null;
             return arr;
         }
 
