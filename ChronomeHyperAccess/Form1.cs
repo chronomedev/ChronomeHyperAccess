@@ -21,7 +21,6 @@ namespace ChronomeHyperAccess {
         public string[,] list_direktori;
         public string[,] list_file;
 
-        //public string[] list_direktori
 
         Thread t1;
         Thread t2;
@@ -156,11 +155,12 @@ namespace ChronomeHyperAccess {
 
             } else
             {
-                //For Files///////////
+                //For Files//////////////////
                 if (list_file[selectedIndexPath, 1] != null && list_file[selectedIndexPath, 1] != "")
                 {
                     checkBox1.Checked = true;
-                    textBox2.Text = list_direktori[selectedIndexPath, 1];
+                    //debug.print("MASUK SINI ADA FILENYA");
+                    textBox2.Text = list_file[selectedIndexPath, 1];
                 }
                 else
                 {
@@ -168,15 +168,16 @@ namespace ChronomeHyperAccess {
                     textBox2.Text = null;
                 }
 
-                if (list_file[selectedIndexPath, 2] == null || list_file[selectedIndexPath, 2] == "")
+                if (list_file[selectedIndexPath, 2] != null && list_file[selectedIndexPath, 2] != "")
                 {
-                    checkBox2.Checked = false;
-                    textBox3.Text = null;
+
+                    checkBox2.Checked = true;
+                    textBox3.Text = list_file[selectedIndexPath, 2];
                 }
                 else
                 {
-                    checkBox2.Checked = true;
-                    textBox3.Text = list_file[selectedIndexPath, 2];
+                    checkBox2.Checked = false;
+                    textBox3.Text = null;
                 }
             }
         }
@@ -275,8 +276,9 @@ namespace ChronomeHyperAccess {
         {
             selectedIndexPath = Konten.searchIndex(listBox2.SelectedItem.ToString(), list_file);
             debug.print(selectedIndexPath);
-            checkStatus("f");
             selectedConfig = "f";
+            checkStatus("f");
+
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -368,6 +370,11 @@ namespace ChronomeHyperAccess {
                 list_file = htaccess.setRoute(list_file, selectedIndexPath, textBox2.Text);
                 debug.print2d(list_file);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            debug.print(htaccess.generateScript(list_direktori, list_file));
         }
     }
 }

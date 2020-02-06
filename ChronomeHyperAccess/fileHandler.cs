@@ -82,6 +82,8 @@ namespace ChronomeHyperAccess
     //htaccess write ops class
     static class htaccess
     {
+
+        //ublic static string script_generated = "";
         public static string direktori_hta;
 
         public static void setDirectory(string direktori)
@@ -91,7 +93,85 @@ namespace ChronomeHyperAccess
 
         public static void createHTA()
         {
-            
+
+        }
+
+        public static string[] parameterCleansing(string parameter_masuk)
+        {
+            string[] pecah = parameter_masuk.Split('&');
+            return pecah;
+        }
+        public static string generateScript(string[,] list_direktori, string[,] list_file)
+        {
+            string script_generated = "";
+            // Write for directory first
+            for(int z = 0; z < list_direktori.GetLength(0); z++)
+            {
+                debug.print("hahahahahaha--->" + list_direktori[z, 2]);
+                if(list_direktori[z, 1] == null)
+                {
+                    debug.print("TRUE");
+                } else
+                {
+                    debug.print("FALSE");
+                }
+                // If there is only basic routing
+                if (list_direktori[z, 1] != null && (list_direktori[z, 2] == null || list_direktori[z, 2] == ""))
+                {
+                    script_generated = script_generated + "RewriteRule ^" + list_direktori[z, 1] + "?$ /" + list_direktori[z, 0] + " [L]\n";
+                }
+                else if (list_direktori[z, 1] == null || list_direktori[z, 1] == "" ) {
+
+                    continue;
+                } else // if there are parameter routes
+                {
+                    debug.print("LOOP DIREK" + z);
+                    string[] paramcreated = parameterCleansing(list_direktori[z, 2]);
+                    string param_cleansed = "";
+                    for(int a = 0; a< paramcreated.Length; a++)
+                    {
+                        param_cleansed = param_cleansed + "/([^/\\.]+)";
+                        
+                    }
+                    script_generated = script_generated + "RewriteRule ^" + list_direktori[z, 1] + param_cleansed + "?$ " + list_direktori[z, 0] + " [L]\n"; ;
+                }
+            }
+
+            //Write for Files
+            for (int z = 0; z < list_file.GetLength(0); z++)
+            {
+                // If there is only basic routing
+                if (list_file[z, 1] != null && (list_file[z, 2] == null || list_file[z, 2] == ""))
+                {
+                    script_generated = script_generated + "RewriteRule ^" + list_file[z, 1] + "?$ " + list_file[z, 0] + " [L]\n";
+                }
+                else if (list_file[z, 1] == null || list_file[z, 1] == "") {
+                    continue;
+
+                } else // if there are parameter routes
+                {
+                    debug.print("LOOP FILE" + z);
+                    string[] paramcreated = parameterCleansing(list_file[z, 2]);
+                    string param_cleansed = "";
+                    string param_putend_url = "?";
+                    for (int a = 1; a < paramcreated.Length; a++)
+                    {
+                        param_cleansed = param_cleansed + "/([^/\\.]+)";
+                        if(a + 1 != paramcreated.Length)
+                        {
+                            param_putend_url = param_putend_url + paramcreated[a] + "=$" + a + "&";
+                        }
+                        else
+                        {
+                            param_putend_url = param_putend_url + paramcreated[a] + "=$" + a;
+                        }
+                        
+
+                    }
+                    script_generated = script_generated + "RewriteRule ^" + list_file[z, 1] + param_cleansed + "?$ " + list_file[z, 0] + param_putend_url + " [L]\n";
+                }
+            }
+            return script_generated;
         }
 
         public static string[,] setRoute(string[,] arr, int index, string param_masuk)
