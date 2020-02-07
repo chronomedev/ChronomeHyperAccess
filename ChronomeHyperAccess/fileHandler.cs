@@ -111,7 +111,6 @@ namespace ChronomeHyperAccess
             // Write for directory first
             for(int z = 0; z < list_direktori.GetLength(0); z++)
             {
-                debug.print("hahahahahaha--->" + list_direktori[z, 2]);
                 if(list_direktori[z, 1] == null)
                 {
                     debug.print("TRUE");
@@ -201,9 +200,6 @@ namespace ChronomeHyperAccess
             arr[index, 2] = null;
             return arr;
         }
-
-
-
 
         public static Boolean checkExsist()
         {

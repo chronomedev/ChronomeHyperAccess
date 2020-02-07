@@ -376,5 +376,10 @@ namespace ChronomeHyperAccess {
         {
             debug.print(htaccess.generateScript(list_direktori, list_file));
         }
+
+        private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/chronomedev/ChronomeHyperAccess/wiki");
+        }
     }
 }

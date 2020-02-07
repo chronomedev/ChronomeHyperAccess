@@ -50,7 +50,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "loadingDialog";
-            this.Text = "loadingDialog";
             this.Load += new System.EventHandler(this.loadingDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
