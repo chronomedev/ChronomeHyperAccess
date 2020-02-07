@@ -13,7 +13,8 @@ namespace ChronomeHyperAccess {
         // Public varibles used by worker threads and main thread
         public int progressBarProcess = 0;
         public int selectedIndexPath;
-        public static Boolean t1Finished = false;
+        public string selected_path_loc;
+        public static Boolean t1Finished;
         public static string selectedConfig;
         public Boolean isOpenDialog = false;
 
@@ -22,8 +23,9 @@ namespace ChronomeHyperAccess {
         public string[,] list_file;
 
 
-        Thread t1;
-        Thread t2;
+        Thread t1; // I/O File Thread 
+        Thread t2; // Progress Bar Thread
+        Thread t3; // Dialog Thread
         public Form1()
         {
             InitializeComponent();
@@ -37,9 +39,36 @@ namespace ChronomeHyperAccess {
         {
             t1 = new Thread(new ThreadStart(T_threadPathSearch));
             t2 = new Thread(new ThreadStart(T_ThreadProgressBarUpdate));
+            t3 = new Thread(new ThreadStart(T_loadingDialogThread));
+        }
+
+        public void T_runHTAFileOps()
+        {
+            htaccess.setDirectory(selected_path_loc);
+            progressBarProcess = 0;
+            String script_generated = htaccess.generateScript(list_direktori, list_file);
+            progressBarProcess = 50;
+            htaccess.createHTA(script_generated);
+            progressBarProcess = 100;
+            t1Finished = true;
+            MessageBox.Show(".htaccess has been created to the current webserver directory!", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+        }
+        public void initializeFileOpsThread()
+        {
+            t1 = new Thread(new ThreadStart(T_runHTAFileOps));
+            t2 = new Thread(new ThreadStart(T_ThreadProgressBarUpdate));
+            t3= new Thread(new ThreadStart(T_loadingDialogThread));
+            
+        }
+        public void T_loadingDialogThread()
+        {
+            loadingDialog loading1 = new loadingDialog();
+            loading1.ShowDialog();
         }
         private void T_threadPathSearch()
         {
+
             list_direktori = Konten.getAllDirectory(direktori_pilihan);
             progressBarProcess = 30;
             list_file = Konten.getAllFile(direktori_pilihan);
@@ -55,14 +84,17 @@ namespace ChronomeHyperAccess {
             //debug.printarr(list_file);
             progressBarProcess = 100;
             t1Finished = true;
+            debug.print("T1FINISHED=" + t1Finished);
+            
         }
 
         //Progressbar Control Thread
         private void T_ThreadProgressBarUpdate()
         {
 
-            while (!t1Finished)
+            while (t1Finished == false)
             {
+                debug.print("aduh t2");
                 progressBar1.Invoke((Action)delegate
                 {
                     progressBar1.Value = progressBarProcess;
@@ -220,27 +252,23 @@ namespace ChronomeHyperAccess {
             if (dialokDirektori.ShowDialog() == DialogResult.OK)
             {
                 textBox1.Text = dialokDirektori.SelectedPath;
+                selected_path_loc = dialokDirektori.SelectedPath;
                 direktori_pilihan = textBox1.Text;
                 initializeThread();
+                t3.Start();
                 t1.Start();
                 t2.Start();
-                loadingDialog loading1 = new loadingDialog();
                 while (t1.IsAlive)
                 {
-
-                    if (isOpenDialog == false)
-                    {
-
-                        loading1.ShowDialog();
-                        isOpenDialog = true;
-
-                    }
+                    continue;
                 }
                 //progressBarProcess = 0;
                 debug.print("okeeee");
                 updatePathDirectoryBox();
                 updatePathFileBox();
                 groupBox2.Visible = true;
+                //t1Finished = false;
+               
 
             }
 
@@ -281,11 +309,6 @@ namespace ChronomeHyperAccess {
 
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox2.Checked)
@@ -307,10 +330,6 @@ namespace ChronomeHyperAccess {
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -374,7 +393,13 @@ namespace ChronomeHyperAccess {
 
         private void button2_Click(object sender, EventArgs e)
         {
-            debug.print(htaccess.generateScript(list_direktori, list_file));
+            progressBar1.Value = 0;
+            t1Finished = false;
+            isOpenDialog = false;
+            initializeFileOpsThread();
+            t3.Start();
+            t1.Start();
+            t2.Start();
         }
 
         private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)

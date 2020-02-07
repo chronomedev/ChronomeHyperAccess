@@ -18,14 +18,12 @@ namespace ChronomeHyperAccess
 
         private void loadingDialog_Load(object sender, EventArgs e)
         {
-            while (Form1.t1Finished)
+            while (Form1.t1Finished == false)
             {
-                if (Form1.t1Finished)
-                {
-                    this.Close();
-                    break;
-                }
+                debug.print("loop!!!");
+                continue;
             }
+            this.Close();
         }
     }
 }
