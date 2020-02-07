@@ -150,11 +150,6 @@ namespace ChronomeHyperAccess {
 
         }
 
-        public void hidePanelConfig()
-        {
-            
-        }
-
         //turn the checkbox htaccess configuration on or off UI
         public void checkStatus(string tipe)
         {
@@ -238,54 +233,47 @@ namespace ChronomeHyperAccess {
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //if(textBox1.Text == null || textBox1.Text == "")
-            //{
-            //    MessageBox.Show("Fill the directory Field!");
-            //} else
-            //{
-            //try
-            //{
-            t1Finished = false;
-            progressBar1.Value = 0;
-            FolderBrowserDialog dialokDirektori = new FolderBrowserDialog();
-            //OpenFileDialog dialokDirektori = new OpenFileDialog();
-            if (dialokDirektori.ShowDialog() == DialogResult.OK)
-            {
-                textBox1.Text = dialokDirektori.SelectedPath;
-                selected_path_loc = dialokDirektori.SelectedPath;
-                direktori_pilihan = textBox1.Text;
-                initializeThread();
-                t3.Start();
-                t1.Start();
-                t2.Start();
-                while (t1.IsAlive)
+          
+                try
                 {
-                    continue;
+                    t1Finished = false;
+                    progressBar1.Value = 0;
+                    FolderBrowserDialog dialokDirektori = new FolderBrowserDialog();
+                    //OpenFileDialog dialokDirektori = new OpenFileDialog();
+                    if (dialokDirektori.ShowDialog() == DialogResult.OK)
+                    {
+                        textBox1.Text = dialokDirektori.SelectedPath;
+                        selected_path_loc = dialokDirektori.SelectedPath;
+                        direktori_pilihan = textBox1.Text;
+                        initializeThread();
+                        t3.Start();
+                        t1.Start();
+                        t2.Start();
+                        while (t1.IsAlive)
+                        {
+                            continue;
+                        }
+                        //progressBarProcess = 0;
+                        debug.print("okeeee");
+                        updatePathDirectoryBox();
+                        updatePathFileBox();
+                        groupBox2.Visible = true;
+                        //t1Finished = false;
+
+
+                    }
+
                 }
-                //progressBarProcess = 0;
-                debug.print("okeeee");
-                updatePathDirectoryBox();
-                updatePathFileBox();
-                groupBox2.Visible = true;
-                //t1Finished = false;
-               
-
-            }
-
-            //} catch(Exception kacau)
-            //{
-            //        MessageBox.Show("ERROR! Error code : " + e);
-            //MessageBox.Show("Apa bila menemukan bug atau error silahkan kontak Developer\nIf you found any defects or any error including the code, " +
-            //    "please contact the developer :D");
-            //        debug.print(e);
-            //        debug.print("ERROR MESSAGE--\n" + kacau.Message);
-            //}
+                catch (Exception kacau)
+                {
+                    MessageBox.Show("ERROR! Error code : " + e);
+                    MessageBox.Show("Apa bila menemukan bug atau error silahkan kontak Developer\nIf you found any defects or any error including the code, " +
+                        "please contact the developer :D");
+                    //        debug.print(e);
+                    //debug.print("ERROR MESSAGE--\n" + kacau.Message);
+                }
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -393,13 +381,20 @@ namespace ChronomeHyperAccess {
 
         private void button2_Click(object sender, EventArgs e)
         {
-            progressBar1.Value = 0;
-            t1Finished = false;
-            isOpenDialog = false;
-            initializeFileOpsThread();
-            t3.Start();
-            t1.Start();
-            t2.Start();
+            if (textBox1.Text == null || textBox1.Text == "")
+            {
+                MessageBox.Show("Fill the Webserver Field!");
+            } else
+            {
+                progressBar1.Value = 0;
+                t1Finished = false;
+                isOpenDialog = false;
+                initializeFileOpsThread();
+                t3.Start();
+                t1.Start();
+                t2.Start();
+            }
+
         }
 
         private void howToUseToolStripMenuItem_Click(object sender, EventArgs e)
