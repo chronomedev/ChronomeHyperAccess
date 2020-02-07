@@ -8,4 +8,5 @@ For Developers by Developer :D
 
 
 -ChronomeDev 2019-
-under GNU GPL Licence 
+
+under MIT Licence 
