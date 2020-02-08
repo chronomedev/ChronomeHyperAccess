@@ -267,7 +267,7 @@ namespace ChronomeHyperAccess {
                 }
                 catch (Exception kacau)
                 {
-                    MessageBox.Show("ERROR! Error code : " + e);
+                    MessageBox.Show("ERROR! Error code : " + kacau);
                     MessageBox.Show("Apa bila menemukan bug atau error silahkan kontak Developer\nIf you found any defects or any error including the code, " +
                         "please contact the developer :D");
                     //        debug.print(e);
