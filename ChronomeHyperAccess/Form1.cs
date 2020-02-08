@@ -239,6 +239,7 @@ namespace ChronomeHyperAccess {
                     t1Finished = false;
                     progressBar1.Value = 0;
                     FolderBrowserDialog dialokDirektori = new FolderBrowserDialog();
+                    dialokDirektori.SelectedPath = selected_path_loc;
                     //OpenFileDialog dialokDirektori = new OpenFileDialog();
                     if (dialokDirektori.ShowDialog() == DialogResult.OK)
                     {
@@ -384,6 +385,7 @@ namespace ChronomeHyperAccess {
             if (textBox1.Text == null || textBox1.Text == "")
             {
                 MessageBox.Show("Fill the Webserver Field!");
+
             } else
             {
                 progressBar1.Value = 0;

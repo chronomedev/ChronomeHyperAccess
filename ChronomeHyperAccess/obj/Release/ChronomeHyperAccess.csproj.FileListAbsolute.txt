@@ -9,3 +9,9 @@ C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Rele
 C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Release\ChronomeHyperAccess.csproj.GenerateResource.cache
 C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Release\ChronomeHyperAccess.exe
 C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Release\ChronomeHyperAccess.pdb
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\bin\Release\ChronomeHyperAccess.exe.manifest
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\bin\Release\ChronomeHyperAccess.application
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Release\ChronomeHyperAccess.csprojAssemblyReference.cache
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Release\ChronomeHyperAccess.TrustInfo.xml
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Release\ChronomeHyperAccess.exe.manifest
+C:\Users\Hansrenee\source\repos\ChronomeHyperAccess\ChronomeHyperAccess\obj\Release\ChronomeHyperAccess.application
